@@ -46,7 +46,7 @@
                 <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                     <div class="grid grid-cols-1  ">
                         <div class="p-6">
-                          Welcome to the Faith Balance Quiz. Click the Register link in the top right corner to register and take the quiz. Or, if you already registered, just login. 
+                          Welcome to the Faith Balance Quiz. Click the Register link in the top right corner to register and take the quiz. Or, if you already registered, just <a href="{{ route('login') }}" class="text-gray-700 underline">login</a>. 
                         </div>
                     </div>
                 </div>
