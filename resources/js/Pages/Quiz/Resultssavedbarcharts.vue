@@ -24,17 +24,17 @@
           <div class="grid grid-cols-3 gap-4">
             <div class="grid grid-rows-1 col-span-2">
               <div class="px-8">
-                <pie-chart
+                <category-chart
                   :chartdata="catchartdata"
                   :options="catoptions"
-                ></pie-chart>
+                ></category-chart>
               </div>
 
               <div class="px-8">
-                <pie-chart
+                <category-chart
                   :chartdata="subcatchartdata"
                   :options="subcatoptions"
-                ></pie-chart>
+                ></category-chart>
               </div>
             </div>
           </div>
@@ -54,12 +54,12 @@ tbody tr:nth-child(odd) td {
 
 <script>
 import AppLayout from "@/Layouts/AppLayout";
-import PieChart from "@/Pages/Quiz/PieChart";
+import CategoryChart from "@/Pages/Quiz/CategoryChart";
 
 export default {
   components: {
     AppLayout,
-    PieChart,
+    CategoryChart,
   },
 
   props: {
@@ -76,26 +76,42 @@ export default {
       catoptions: {
             responsive : true, 
             legend: { 
-              display: true
+              display: false
             }, 
             title: {
             display: true,
             text: "Faith Balance "
          }, 
-        
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
       },
 
       subcatoptions: {
          responsive : true, 
             
          legend: { 
-              display: true
+              display: false
             }, 
             title: {
             display: true,
             text: "Sub-Category: Faith Style"
          }, 
-      
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                beginAtZero: true,
+              },
+            },
+          ],
+        },
       },
     };
   },
@@ -113,7 +129,7 @@ export default {
       }
 
       var chartdata = {
-        labels: categorylabels, 
+        labels: categorylabels,
         datasets: [
           {
             label : "Faith Balance",
@@ -131,7 +147,6 @@ export default {
                
             ],
             borderWidth: 1,
-           
           },
         ],
       };
@@ -156,7 +171,7 @@ export default {
         datasets: [
           {
             label: "Sub-Category: Faith Style",
-          
+            labels: ["Head", "Heart", "Hands"],
             data: categoryscores,
             backgroundColor: [
               "rgba(75, 192, 192, 0.2)",

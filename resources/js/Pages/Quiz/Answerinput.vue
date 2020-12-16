@@ -45,12 +45,12 @@ export default {
 
     updateValue(value) {
       // Atttach validation + sanitization here.
-      if (value >= 1 && value <= 5) {
+      if (value >= 0 && value <= 10) {
         this.errorflag = false;
         this.inputerrClass = "";
       } else {
         this.errorflag = true;
-        this.error = "You must type a value between 1 and 5";
+        this.error = "You must type a value between 0 and 10. (A blank answer is not allowed.)";
         this.inputerrClass = "bg-red-200";
       }
 

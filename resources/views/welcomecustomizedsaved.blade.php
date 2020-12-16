@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>WCF Faith Balance Self-Assessment</title>
+    <title>Faith Balance Assessment</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -399,43 +399,60 @@
 </head>
 
 <body class="antialiased">
-    <div class="relative flex items-top justify-between min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
+    <div class="relative flex items-top justify-start min-h-screen  bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
         <!-- Logo -->
-        <div class="hidden fixed top-0 left-0 px-6 py-4 sm:block">
-            <img src="/images/wcflogo.png" style="height: auto; width: auto; max-height: 60px;   max-width: 100%;" />
+        <div class="hidden fixed top-0 left-0 px-6 py-4 sm:block"> 
+            <img src="/images/wcflogo.png" class="h-8 w-full sm:h-10" style="height: auto; width: auto; max-height: 60px; max-width: 100%;" />
         </div>
-        <div class="justify-center">
-            @if (Route::has('login'))
-            <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                @auth
-                <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
-                @else
-                <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Login</a>
 
-                @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
-                @endif
-                @endauth
-            </div>
+    
+        @if (Route::has('login'))
+        <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+            @auth
+            <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 underline">Dashboard</a>
+            @else
+            <a href="{{ route('login') }}" class="text-sm text-gray-700 underline">Login</a>
+
+            @if (Route::has('register'))
+            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Register</a>
             @endif
+            @endauth
         </div>
-
+        @endif
+        </div>
+        
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
+            
+
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                 <div class="grid grid-cols-1  ">
                     <div class="p-6">
-                        <p>Welcome to the Faith Balance Assessment. Click <a href="{{ route('register') }}" class="text-gray-700 underline">here</a> to register, or the Register link in the top right corner, to take the quiz.
+                        <p>Welcome to the Faith Balance Quiz. Click the Register link in the top right corner to register and take the quiz. 
                             Or, if you already registered, just <a href="{{ route('login') }}" class="text-gray-700 underline">login</a>.</p>
+                    
+                        <p>This quiz is based on the book, Sacred Pathways, written by Gary Thomas.
+                            Some of the questions in this book have been modified for this Faith Balance Quiz, to better fit our Christadelphian Community.
+                            This Quiz is designed to give you an indication of your natural tendency between three elements of faith we talk about in FaithLaunch, the Head, Heart and Hands. </p>
 
-                        <p>This assessment is based on the book Sacred Pathways, written by Gary Thomas. We have modified some of the questions in the book to better fit our Christadelphian Community.
-                            This assessment is designed to give you an indication of your natural tendency between three elements of faith we talk about in FaithLaunch: the Head, Heart and Hands.</p>
+                        <p>This information can help you engage in a deeper relationship with God.
+                            By understanding the way(s) you connect most with God, you can engage more clearly as well as avoid potential dangers.
+                            This self examination also helps point out the ways we don't connect with God so that we may grow in those areas. </p>
 
-                        <p>This information may help you engage in a deeper relationship with God. By understanding the way(s) you connect most with God, you can both engage more clearly and avoid potential dangers.
-                            This self examination also helps demonstrate ways we don't connect with God, so that we may grow in those areas. </p>
-
-                        <p>Hopefully this assessment will also give you some insight into how others have different drivers of their faith than you.
-                            This may help you develop a greater appreciation of and deeper relationship with your Faith Network.</p>
+                        <p>Hopefully, this quiz will also give you some insight into how others have different drivers of their faith than you do.
+                            This can help you develop a greater appreciation and deeper relationship with your Faith Network . </p>
                     </div>
+                </div>
+            </div>
+
+            <div class="flex justify-center mt-4 sm:items-center sm:justify-between">
+                <div class="text-center text-sm text-gray-500 sm:text-left">
+                    <div class="flex items-center">
+
+                    </div>
+                </div>
+
+                <div class="ml-4 text-center text-sm text-gray-500 sm:text-right sm:ml-0">
+
                 </div>
             </div>
         </div>

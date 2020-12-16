@@ -82,7 +82,7 @@ class QuizzesController extends Controller
         return Redirect::route('quizzes.results', [$quizid])->with('success', 'Congratulations. You Completed The Quiz.');
     }
 
-    public function results($quizid)
+    public function resultspie($quizid)
     { 
         // Get the Quiz data and return to our Chart container page: 
         $v = new Viewdata(); 
@@ -95,7 +95,7 @@ class QuizzesController extends Controller
         $quizresponse = Quizresponse::where('user_id', $user->id)->where('quiz_id', $quizid)->first(); 
   
         // Get sum of all responses by question category. 
-        $v->catresults = \DB::table('quizresponsedetails as rd')
+        $catresults = \DB::table('quizresponsedetails as rd')
       
                         ->join('quizdetails as q', function ($join) use ($quizid) {
                             $join->on('rd.quizquestion_number', '=', 'q.questionnumber')
@@ -104,6 +104,15 @@ class QuizzesController extends Controller
                         ->where('quizresponse_id', '=', $quizresponse->id) ->select(\DB::raw('sum(response) as score, category'))
                         ->groupBy('category')
                         ->get();    
+
+        // Shuffle results around from alphabetical (Hands, Head, Heart) to 'head, heart and hands' as per Paul's request. 
+        // This is a kludge approach vs creating new table w order of category in it
+        $v->catresults = []; 
+        $v->catresults[] = $catresults[1]; 
+        $v->catresults[] = $catresults[2];
+        $v->catresults[] = $catresults[0];
+        
+                        
                          
 
         // Get count of questions by subcategory:                     
@@ -135,14 +144,18 @@ class QuizzesController extends Controller
                 // Find the count for matching subcategory. 
                 // Probably a more efficient way to do this - some sort of array lookup - 
                 // but this is quick and dirty . 
-                foreach($subcats as $subcat ) { 
+                   foreach($subcats as $subcat ) { 
                     if ($subcat->subcategory == $response->subcategory) {
                         $subcatcount  = $subcat->count; 
                         break;
                     }
                 }
+
+                  // ALso - each subcategory has a 2 digit number in front to provide a sort order. 
+                // remove that before we send data to client: 
+           
             $temp['score'] = $response->score /($subcatcount * 5) * 100;
-            $temp['subcategory'] = $response->subcategory; 
+            $temp['subcategory'] = substr($response->subcategory,2);
             $temp['subcatcount'] = $subcatcount;
             $temp['unadjustedscore'] = $response->score; 
             

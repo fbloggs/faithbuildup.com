@@ -12,11 +12,11 @@
             <div v-if="!quizdone" class="mt-6 text-gray-500">
                 Click <inertia-link :href="route('quizzes.show', {id: 1})" class="underline font-semibold">
                                 here
-                            </inertia-link> or on the 'Quiz' link at the top of the page to take the Faith Balance Quiz.
+                            </inertia-link> or on the 'Quiz' link at the top of the page to take the Faith Balance Assessment.
             </div>
 
             <div v-if="quizdone" class="mt-6 text-gray-500">
-               View Your Faith Balance Quiz results  <inertia-link :href="route('quizzes.results', {id: 1})" class="underline font-semibold">here.</inertia-link>
+               View Your Faith Balance Assessment results  <inertia-link :href="route('quizzes.results', {id: 1})" class="underline font-semibold">here.</inertia-link>
             </div>
 
         </div>

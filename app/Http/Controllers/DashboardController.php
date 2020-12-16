@@ -24,9 +24,10 @@ class DashboardController extends Controller
         $v = new Viewdata();
        
         $v->userid  = $user->id; 
-       $quizresponse  = Quizresponse::findorFail($quizid) ;
-
-       if(is_Null($quizresponse)) { 
+       // $quizresponse  = Quizresponse::find(['quiz_id' => $quizid, 'user_id' => $user->id] ) ;
+       $quizresponse  = \DB::table('quizresponses')->where('quiz_id', $quizid)->where('user_id', $user->id)->exists();
+        
+       if(!($quizresponse)) { 
            $v->quizdone = false; 
        }
        else {
@@ -35,9 +36,6 @@ class DashboardController extends Controller
          
         return Inertia::render('Dashboard',  $v->toArray());
     }
-
-   
-    
 
     public function update(Request $request, $quizid)
     {
@@ -87,7 +85,11 @@ class DashboardController extends Controller
         return Redirect::route('quizzes.results', [$quizid])->with('success', 'Congratulations. You Completed The Quiz.');
     }
 
-    public function results($quizid)
+    /**
+     * Pie chart code 
+     * 
+     */
+    public function resultspie($quizid)
     { 
         // Get the Quiz data and return to our Chart container page: 
         $v = new Viewdata(); 
@@ -155,7 +157,82 @@ class DashboardController extends Controller
             $v->subcatresults[] = $temp; 
         }      
          
-        return Inertia::render('Quiz/Results',  $v->toArray());
+        return Inertia::render('Quiz/Resultspie',  $v->toArray());
+
+    }
+
+    /** 
+     * Original Bar chart code. Now using Pie chart, but left this here just in case.
+     */
+    public function resultsbar($quizid)
+    { 
+        // Get the Quiz data and return to our Chart container page: 
+        $v = new Viewdata(); 
+        
+        $user = Auth::user();
+        $v->userid  = $user->id; 
+     
+        $v->quiz = Quiz::findorFail($quizid) ;
+
+        $quizresponse = Quizresponse::where('user_id', $user->id)->where('quiz_id', $quizid)->first(); 
+  
+        // Get sum of all responses by question category. 
+        $v->catresults = \DB::table('quizresponsedetails as rd')
+      
+                        ->join('quizdetails as q', function ($join) use ($quizid) {
+                            $join->on('rd.quizquestion_number', '=', 'q.questionnumber')
+                                ->where('q.quiz_id',  '=', $quizid );
+                        })
+                        ->where('quizresponse_id', '=', $quizresponse->id) ->select(\DB::raw('sum(response) as score, category'))
+                        ->groupBy('category')
+                        ->get();    
+                         
+
+        // Get count of questions by subcategory:                     
+        $subcats  = \DB::table('quizdetails')
+                        ->where('quiz_id',  '=', $quizid )
+                        ->select(\DB::raw('count(*) as count, subcategory'))
+                        ->groupBy('subcategory')
+                        ->get();    
+
+        // Get sum of all results by question subcategory:                  
+        $subcatresponses = \DB::table('quizresponsedetails as rd')
+              ->join('quizdetails as q', function ($join) use ($quizid) {
+                    $join->on('rd.quizquestion_number', '=', 'q.questionnumber')
+                         ->where('q.quiz_id',  '=', $quizid );
+                    })
+              ->where('quizresponse_id', '=', $quizresponse->id) ->select(\DB::raw('sum(response) as score, subcategory'))
+              ->groupBy('subcategory')
+              ->get();    
+
+        $v->subcatresults = []; 
+
+        // Calculate the adjusted score using Paul's formula: 
+        //  =  score/(subcategorycount*5) * 100 
+        foreach($subcatresponses as $response) 
+        {
+            $subcatcount = 0; 
+            $temp = []; 
+
+                // Find the count for matching subcategory. 
+                // Probably a more efficient way to do this - some sort of array lookup - 
+                // but this is quick and dirty . 
+                foreach($subcats as $subcat ) { 
+                    if ($subcat->subcategory == $response->subcategory) {
+                        $subcatcount  = $subcat->count; 
+                        break;
+                    }
+                }
+            $temp['score'] = $response->score /($subcatcount * 5) * 100;
+            $temp['subcategory'] = $response->subcategory; 
+            $temp['subcatcount'] = $subcatcount;
+            $temp['unadjustedscore'] = $response->score; 
+            
+            // Add working array to results. 
+            $v->subcatresults[] = $temp; 
+        }      
+         
+        return Inertia::render('Quiz/Resultssavedbarchart',  $v->toArray());
 
     }
 }

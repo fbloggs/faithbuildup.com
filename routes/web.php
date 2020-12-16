@@ -16,7 +16,7 @@ use App\Http\Controllers\DashboardController;
 */
 
 Route::get('/', function () {
-    return view('welcomecustomized');
+    return view('welcome');
 });
 
 
@@ -28,7 +28,8 @@ Route::put('/quiz/{id}/update', [QuizzesController::class, 'update'])
 ->name('quizzes.update')
 ->middleware('auth');
 
-Route::get('/quiz/completed/{id}', [QuizzesController::class, 'results'])
+// Pie Chart results. Run resultsbar for bar chart. 
+Route::get('/quiz/completed/{id}', [QuizzesController::class, 'resultspie'])
 ->name('quizzes.results')
 ->middleware('auth');
 
