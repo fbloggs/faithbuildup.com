@@ -101,7 +101,7 @@ class QuizzesController extends Controller
                             $join->on('rd.quizquestion_number', '=', 'q.questionnumber')
                                 ->where('q.quiz_id',  '=', $quizid );
                         })
-                        ->where('quizresponse_id', '=', $quizresponse->id) ->select(\DB::raw('sum(response) as score, category'))
+                        ->where('quizresponse_id', '=', $quizresponse->id) ->select(\DB::raw('truncate(sum(response),0) as score, category'))
                         ->groupBy('category')
                         ->get();    
 
@@ -154,7 +154,7 @@ class QuizzesController extends Controller
                   // ALso - each subcategory has a 2 digit number in front to provide a sort order. 
                 // remove that before we send data to client: 
            
-            $temp['score'] = $response->score /($subcatcount * 5) * 100;
+            $temp['score'] = round($response->score /($subcatcount * 5) * 100, 2);
             $temp['subcategory'] = substr($response->subcategory,2);
             $temp['subcatcount'] = $subcatcount;
             $temp['unadjustedscore'] = $response->score; 

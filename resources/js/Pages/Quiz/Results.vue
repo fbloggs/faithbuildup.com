@@ -80,7 +80,7 @@ export default {
             }, 
             title: {
             display: true,
-            text: "Faith Balance "
+            text: "Faith Balance Profile"
          }, 
         
       },
@@ -116,12 +116,12 @@ export default {
         labels: categorylabels, 
         datasets: [
           {
-            label : "Faith Balance",
+            label : "Faith Balance Profile",
             data: categoryscores,
             backgroundColor: [
-              "rgba(255, 99, 132, 0.2)",
-              "rgba(54, 162, 235, 0.2)",
-              "rgba(255, 206, 86, 0.2)",
+              "rgba(255, 99, 132, 0.8)",
+              "rgba(54, 162, 235, 0.8)",
+              "rgba(255, 206, 86, 0.8)",
              
             ],
             borderColor: [
@@ -159,22 +159,22 @@ export default {
           
             data: categoryscores,
             backgroundColor: [
-              "rgba(75, 192, 192, 0.2)",
-              "rgba(153, 102, 255, 0.2)",
-              "rgba(255, 159, 64, 0.2)",
-              "rgba(193, 66, 66, 0.2)",
-              "rgba(63, 127, 191, 0.2)",
-              "rgba(191, 63, 191, 0.2)",
+              "rgba(255, 99, 132, 0.3)",
+              "rgba(255, 99, 132, 0.5)",
+              "rgba(54, 162, 235, 0.3)",
+              "rgba(54, 162, 235, 0.5)",
+              "rgba(255, 206, 86, 0.3)",
+              "rgba(255, 206, 86, 0.5)",
               "rgba(191, 191, 63, 0.2)",
               "rgba(56, 242, 53, 0.2)",
             ],
             borderColor: [
-              "rgba(75, 192, 192, 1)",
-              "rgba(153, 102, 255, 1)",
-              "rgba(255, 159, 64, 1)",
-              "rgba(193, 66, 66, 1)",
-              "rgba(63, 127, 191, 1)",
-              "rgba(191, 63, 191, 1)",
+              "rgba(255, 99, 132, 1)",
+              "rgba(255, 99, 132, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(54, 162, 235, 1)",
+              "rgba(255, 206, 86, 1)",
+              "rgba(255, 206, 86, 1)",
               "rgba(191, 191, 63, 1)",
               "rgba(56, 242, 53, 1)",
             ],
