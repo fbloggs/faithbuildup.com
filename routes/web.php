@@ -20,20 +20,20 @@ Route::get('/', function () {
 });
 
 
-Route::get('/quiz/{id}/show', [QuizzesController::class, 'show'])
+Route::get('/quiz/{quizid}/show', [QuizzesController::class, 'show'])
 ->name('quizzes.show')
-->middleware('auth');
+->middleware('auth:sanctum', 'verified');
 
-Route::put('/quiz/{id}/update', [QuizzesController::class, 'update'])
+Route::put('/quiz/{quizid}/update', [QuizzesController::class, 'update'])
 ->name('quizzes.update')
 ->middleware('auth');
 
 // Pie Chart results. Run resultsbar for bar chart. 
-Route::get('/quiz/completed/{id}', [QuizzesController::class, 'resultspie'])
+Route::get('/quiz/completed/{quizid}', [QuizzesController::class, 'resultspie'])
 ->name('quizzes.results')
 ->middleware('auth');
 
-// Use a reak controller for dashboard so we can condition display of links based on server values. 
+// Use a real controller for dashboard so we can condition display of links based on server values. 
 //Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
  //   return Inertia\Inertia::render('Dashboard');
 //})->name('dashboard');

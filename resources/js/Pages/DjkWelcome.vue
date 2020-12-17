@@ -10,13 +10,13 @@
             </div>
 
             <div v-if="!quizdone" class="mt-6 text-gray-500">
-                Click <inertia-link :href="route('quizzes.show', {id: 1})" class="underline font-semibold">
+                Click <inertia-link :href="route('quizzes.show', {quizid: 1})" class="underline font-semibold">
                                 here
-                            </inertia-link> or on the 'Quiz' link at the top of the page to take the Faith Balance Assessment.
+                            </inertia-link> or on the 'Quiz' link at the top of the page to determine your Faith Balance Profile.
             </div>
 
             <div v-if="quizdone" class="mt-6 text-gray-500">
-               View Your Faith Balance Assessment results  <inertia-link :href="route('quizzes.results', {id: 1})" class="underline font-semibold">here.</inertia-link>
+               View Your Faith Balance Profile <inertia-link :href="route('quizzes.results', { quizid: 1})" class="underline font-semibold">here.</inertia-link>
             </div>
 
         </div>
@@ -37,6 +37,7 @@
         
       props : { 
           quizdone: Boolean,
+          userid : Number
       },
 
         data() {

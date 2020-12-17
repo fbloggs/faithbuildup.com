@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>WCF Faith Balance Self-Assessment</title>
+    <title>WCF Faith Balance Profile</title>
 
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
@@ -424,16 +424,16 @@
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                 <div class="grid grid-cols-1  ">
                     <div class="p-6">
-                        <p>Welcome to the Faith Balance Assessment. Click <a href="{{ route('register') }}" class="text-gray-700 underline">here</a> to register, or the Register link in the top right corner, to take the quiz.
+                        <p>Welcome to the Faith Balance Profile analysis. Click <a href="{{ route('register') }}" class="text-gray-700 underline">here</a> to register, or the Register link in the top right corner, to take the quiz.
                             Or, if you already registered, just <a href="{{ route('login') }}" class="text-gray-700 underline">login</a>.</p>
 
-                        <p>This assessment is based on the book Sacred Pathways, written by Gary Thomas. We have modified some of the questions in the book to better fit our Christadelphian Community.
-                            This assessment is designed to give you an indication of your natural tendency between three elements of faith we talk about in FaithLaunch: the Head, Heart and Hands.</p>
+                        <p>This Faith BAlance Profile analysis is based on the book Sacred Pathways, written by Gary Thomas. We have modified some of the questions in the book to better fit our Christadelphian Community.
+                            It is designed to give you an indication of your natural tendency between three elements of faith we talk about in FaithLaunch: the Head, Heart and Hands.</p>
 
                         <p>This information may help you engage in a deeper relationship with God. By understanding the way(s) you connect most with God, you can both engage more clearly and avoid potential dangers.
                             This self examination also helps demonstrate ways we don't connect with God, so that we may grow in those areas. </p>
 
-                        <p>Hopefully this assessment will also give you some insight into how others have different drivers of their faith than you.
+                        <p>Hopefully your profile will also give you some insight into how others have different drivers of their faith than you.
                             This may help you develop a greater appreciation of and deeper relationship with your Faith Network.</p>
                     </div>
                 </div>
