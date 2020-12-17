@@ -424,10 +424,10 @@
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                 <div class="grid grid-cols-1  ">
                     <div class="p-6">
-                        <p>Welcome to the Faith Balance Profile analysis. Click <a href="{{ route('register') }}" class="text-gray-700 underline">here</a> to register, or the Register link in the top right corner, to take the quiz.
+                        <p>Welcome to the Faith Balance Profile quiz. Click <a href="{{ route('register') }}" class="text-gray-700 underline">here</a> to register, or the Register link in the top right corner, to take the quiz.
                             Or, if you already registered, just <a href="{{ route('login') }}" class="text-gray-700 underline">login</a>.</p>
 
-                        <p>This Faith BAlance Profile analysis is based on the book Sacred Pathways, written by Gary Thomas. We have modified some of the questions in the book to better fit our Christadelphian Community.
+                        <p>This Faith Balance Profile is based on the book Sacred Pathways, written by Gary Thomas. We have modified some of the questions in the book to better fit our Christadelphian Community.
                             It is designed to give you an indication of your natural tendency between three elements of faith we talk about in FaithLaunch: the Head, Heart and Hands.</p>
 
                         <p>This information may help you engage in a deeper relationship with God. By understanding the way(s) you connect most with God, you can both engage more clearly and avoid potential dangers.
