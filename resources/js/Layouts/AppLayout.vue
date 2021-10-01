@@ -9,9 +9,9 @@
                         <div class="flex-shrink-0 flex items-center">
                             <inertia-link :href="route('dashboard')">
                                <!-- <jet-application-mark class="block h-9 w-auto" />-->
-                                
+
                                 <img src="/images/wcflogo.png" class="block h-12 w-auto" />
-           
+
                             </inertia-link>
                         </div>
 
@@ -21,12 +21,16 @@
                                 Dashboard
                             </jet-nav-link>
                             <jet-nav-link  v-if="!quizdone" :href="route('quizzes.show', {id: 1})"   :active="route().current('quizzes.show')">
-                                Quiz
+                                Faith Balance Quiz
                             </jet-nav-link>
 
                             <jet-nav-link  v-if="quizdone" :href="route('quizzes.results', {id: 1})"   :active="route().current('quizzes.show')">
-                                Results
+                                Faith Balance Results
                             </jet-nav-link>
+                             <jet-nav-link    :href="route('timelines.show')"   :active="route().current('timeslines.show')">
+                                Faith Time Line
+                            </jet-nav-link>
+
                         </div>
                     </div>
 
@@ -236,18 +240,18 @@
             JetNavLink,
             JetResponsiveNavLink,
             eventBus,
-            
+
         },
 
-        props: { 
-            quizdone : Boolean, 
+        props: {
+            quizdone : Boolean,
 
         },
 
         data() {
             return {
                 showingNavigationDropdown: false,
-              
+
             }
         },
 

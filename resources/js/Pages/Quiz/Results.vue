@@ -16,18 +16,25 @@
               The numerical scores in your results have no significance by
               themselves, except to show the relative balance between the three
               elements of faith. Hopefully the results of this quiz will give
-              you some insight into your natural thinking process and you assist
-              you to develop a personal action plan to get these elements in
+              you some insight into your natural thinking process and will assist
+              you in developing a personal action plan to get these elements in
               more of a balance, if you desire.
             </p>
           </div>
-          <div class="grid grid-cols-3 gap-4">
-            <div class="grid grid-rows-1 col-span-2">
-              <div class="px-8">
+          <div class="grid grid-cols-4 gap-3">
+            <div class="grid grid-rows-1 col-span-3">
+              <div class="px-8 mb-10 border">
                 <pie-chart
                   :chartdata="catchartdata"
                   :options="catoptions"
                 ></pie-chart>
+                <div class="py-4">
+                <ul class="list-style-none">
+                <li class="mr-10 pb-2 font-bold" v-for="cat in catsorted" :key="cat.category">
+                 {{ cat.category}}  {{ cat.score }}
+                </li>
+                </ul>
+                </div>
               </div>
 
               <div class="px-8">
@@ -35,6 +42,16 @@
                   :chartdata="subcatchartdata"
                   :options="subcatoptions"
                 ></pie-chart>
+
+                  <div class="py-4">
+                  <h2>Top 3 Faith Styles</h2>
+                <ul class="list-style-none">
+                <li class="inline mr-10 font-bold" v-for="cat, index in subcattopthree" :key="cat.subcategory">
+                 {{ cat.subcategory}}  {{ cat.score }}
+                </li>
+                </ul>
+                </div>
+              </div>
               </div>
             </div>
           </div>
@@ -50,7 +67,7 @@ tbody tr:nth-child(odd) td {
   --tw-bg-opacity: 1;
   background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
 }
-</style> 
+</style>
 
 <script>
 import AppLayout from "@/Layouts/AppLayout";
@@ -65,8 +82,11 @@ export default {
   props: {
     userid: Number,
     quiz: Object,
+
     catresults: Array,
     subcatresults: Array,
+    catsorted : Array,
+    subcatsorted : Array,
   },
   data() {
     return {
@@ -74,28 +94,28 @@ export default {
       pageError: false,
       quizdone: true,
       catoptions: {
-            responsive : true, 
-            legend: { 
+            responsive : true,
+            legend: {
               display: true
-            }, 
+            },
             title: {
             display: true,
             text: "Faith Balance Profile"
-         }, 
-        
+         },
+
       },
 
       subcatoptions: {
-         responsive : true, 
-            
-         legend: { 
+         responsive : true,
+
+         legend: {
               display: true
-            }, 
+            },
             title: {
             display: true,
             text: "Sub-Category: Faith Style"
-         }, 
-      
+         },
+
       },
     };
   },
@@ -103,35 +123,29 @@ export default {
   computed: {
     catchartdata() {
       var arrayLength = this.catresults.length;
-      let categoryscores = [];
-      let categorylabels = [];
-     
+      let scores = [];
+      let labels = [];
+      let bgcolors = [];
+      let bordercolors = [];
 
       for (var i = 0; i < arrayLength; i++) {
-        categoryscores.push(this.catresults[i].score);
-        categorylabels.push(this.catresults[i].category);
+        scores.push(this.catresults[i].score);
+        labels.push(this.catresults[i].category);
+        bgcolors.push(this.catresults[i].bgcolor);
+        bordercolors.push(this.catresults[i].bordercolor);
       }
 
       var chartdata = {
-        labels: categorylabels, 
+        labels: labels,
         datasets: [
           {
             label : "Faith Balance Profile",
-            data: categoryscores,
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.8)",
-              "rgba(54, 162, 235, 0.8)",
-              "rgba(255, 206, 86, 0.8)",
-             
-            ],
-            borderColor: [
-              "rgba(255, 99, 132, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-               
-            ],
+            data: scores,
+            backgroundColor: bgcolors,
+
+            borderColor: bordercolors,
             borderWidth: 1,
-           
+
           },
         ],
       };
@@ -144,46 +158,40 @@ export default {
      */
     subcatchartdata() {
       var arrayLength = this.subcatresults.length;
-      let categoryscores = [];
-      let categorylabels = [];
+     let scores = [];
+      let labels = [];
+      let bgcolors = [];
+      let bordercolors = [];
       for (var i = 0; i < arrayLength; i++) {
-        categoryscores.push(this.subcatresults[i].score);
-        categorylabels.push(this.subcatresults[i].subcategory);
+         scores.push(this.subcatresults[i].score);
+         labels.push(this.subcatresults[i].subcategory);
+          bgcolors.push(this.subcatresults[i].bgcolor);
+        bordercolors.push(this.subcatresults[i].bordercolor);
       }
 
       var chartdata = {
-        labels: categorylabels,
+        labels: labels,
         datasets: [
           {
             label: "Sub-Category: Faith Style",
-          
-            data: categoryscores,
-            backgroundColor: [
-              "rgba(255, 99, 132, 0.3)",
-              "rgba(255, 99, 132, 0.5)",
-              "rgba(54, 162, 235, 0.3)",
-              "rgba(54, 162, 235, 0.5)",
-              "rgba(255, 206, 86, 0.3)",
-              "rgba(255, 206, 86, 0.5)",
-              "rgba(191, 191, 63, 0.2)",
-              "rgba(56, 242, 53, 0.2)",
-            ],
-            borderColor: [
-              "rgba(255, 99, 132, 1)",
-              "rgba(255, 99, 132, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(54, 162, 235, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(255, 206, 86, 1)",
-              "rgba(191, 191, 63, 1)",
-              "rgba(56, 242, 53, 1)",
-            ],
+
+            data: scores,
+            backgroundColor : bgcolors,
+            borderColor:bordercolors,
             borderWidth: 1,
           },
         ],
       };
 
       return chartdata;
+    },
+
+    subcattopthree() {
+      let temp = [];
+      for (let i=0; i<3; i++ ) {
+        temp[i] = this.subcatsorted[i];
+      }
+      return temp;
     },
   },
 };

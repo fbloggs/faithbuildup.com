@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizzesController;
+use App\Http\Controllers\TimelinesController;
+
 use App\Http\Controllers\DashboardController;
 
 /*
@@ -28,12 +30,27 @@ Route::put('/quiz/{quizid}/update', [QuizzesController::class, 'update'])
 ->name('quizzes.update')
 ->middleware('auth');
 
-// Pie Chart results. Run resultsbar for bar chart. 
+// Pie Chart results. Run resultsbar for bar chart.
 Route::get('/quiz/completed/{quizid}', [QuizzesController::class, 'resultspie'])
 ->name('quizzes.results')
 ->middleware('auth');
 
-// Use a real controller for dashboard so we can condition display of links based on server values. 
+
+// Faith Timeline Routes (Started 20210903)
+Route::get('/timeline/show', [TimelinesController::class, 'show'])
+->name('timelines.show')
+->middleware('auth:sanctum', 'verified');
+
+Route::put('/timeline/update', [TimelinesController::class, 'update'])
+->name('timelines.update')
+->middleware('auth');
+
+// Pie Chart results. Run results for pie chart.
+Route::get('/timeline/completed/', [TimelinesController::class, 'resultschart'])
+->name('timelines.results')
+->middleware('auth');
+
+// Use a real controller for dashboard so we can condition display of links based on server values.
 //Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
  //   return Inertia\Inertia::render('Dashboard');
 //})->name('dashboard');

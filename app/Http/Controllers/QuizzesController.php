@@ -101,19 +101,29 @@ class QuizzesController extends Controller
                             $join->on('rd.quizquestion_number', '=', 'q.questionnumber')
                                 ->where('q.quiz_id',  '=', $quizid );
                         })
-                        ->where('quizresponse_id', '=', $quizresponse->id) ->select(\DB::raw('truncate(sum(response),0) as score, category'))
-                        ->groupBy('category')
+                        ->join('quizcategories', 'category', 'catname' )
+                        ->where('quizresponse_id', '=', $quizresponse->id) ->select(\DB::raw('truncate(sum(response),0) as score, category, bgcolor, bordercolor'))
+                        ->groupBy('category', 'bgcolor', 'bordercolor')->orderBy('score', 'DESC')
                         ->get();    
 
         // Shuffle results around from alphabetical (Hands, Head, Heart) to 'head, heart and hands' as per Paul's request. 
         // This is a kludge approach vs creating new table w order of category in it
-        $v->catresults = []; 
-        $v->catresults[] = $catresults[1]; 
-        $v->catresults[] = $catresults[2];
-        $v->catresults[] = $catresults[0];
-        
+        // DJK 20201219 - Don't shuffle -use sorted arrangement
+        // $v->catresults = []; 
+        //$v->catresults[] = $catresults[1]; 
+        //$v->catresults[] = $catresults[2];
+        //$v->catresults[] = $catresults[0];
+
+        $v->catresults = $catresults; 
+
+        $v->catsorted = $v->catresults; 
                         
-                         
+        //  usort($v->catsorted, function($a, $b) { return strcmp($b->score, $a->score); });                 
+        
+        $v->catsorted[0]->category = 'Primary Faith Element: ' . $v->catsorted[0]->category;
+        $v->catsorted[1]->category = 'Secondary Faith Element: ' . $v->catsorted[1]->category;
+        $v->catsorted[2]->category = 'Third Faith Element: ' . $v->catsorted[2]->category;
+
 
         // Get count of questions by subcategory:                     
         $subcats  = \DB::table('quizdetails')
@@ -128,9 +138,12 @@ class QuizzesController extends Controller
                     $join->on('rd.quizquestion_number', '=', 'q.questionnumber')
                          ->where('q.quiz_id',  '=', $quizid );
                     })
-              ->where('quizresponse_id', '=', $quizresponse->id) ->select(\DB::raw('sum(response) as score, subcategory'))
-              ->groupBy('subcategory')
+                    ->join('quizsubcategories as qsc', 'subcategory', 'qsc.id')
+              ->where('quizresponse_id', '=', $quizresponse->id) ->select(\DB::raw('sum(response) as score, count(*) as count,  subcatdescription, bgcolor, bordercolor'))
+              ->groupBy('subcatdescription', 'bgcolor', 'bordercolor')->orderBy('score', 'DESC')
               ->get();    
+
+             
 
         $v->subcatresults = []; 
 
@@ -138,30 +151,23 @@ class QuizzesController extends Controller
         //  =  score/(subcategorycount*5) * 100 
         foreach($subcatresponses as $response) 
         {
-            $subcatcount = 0; 
-            $temp = []; 
-
-                // Find the count for matching subcategory. 
-                // Probably a more efficient way to do this - some sort of array lookup - 
-                // but this is quick and dirty . 
-                   foreach($subcats as $subcat ) { 
-                    if ($subcat->subcategory == $response->subcategory) {
-                        $subcatcount  = $subcat->count; 
-                        break;
-                    }
-                }
-
-                  // ALso - each subcategory has a 2 digit number in front to provide a sort order. 
-                // remove that before we send data to client: 
            
-            $temp['score'] = round($response->score /($subcatcount * 5) * 100, 2);
-            $temp['subcategory'] = substr($response->subcategory,2);
-            $temp['subcatcount'] = $subcatcount;
+            $temp['score'] = round($response->score /($response->count * 5) * 100, 2);
+            $temp['subcategory'] = $response->subcatdescription;
+            $temp['subcatcount'] = $response->count;
             $temp['unadjustedscore'] = $response->score; 
+            $temp['bgcolor'] = $response->bgcolor; 
+            $temp['bordercolor'] = $response->bordercolor; 
             
             // Add working array to results. 
             $v->subcatresults[] = $temp; 
-        }      
+
+            
+        }   
+        // DJK 20201219 - I added an orderBy above, so now original array is already sorted. 
+        // No need to sort again   
+            $v->subcatsorted = $v->subcatresults; 
+           // usort($v->subcatsorted, function($a, $b) { return strcmp($b['score'], $a['score']); });
          
         return Inertia::render('Quiz/Results',  $v->toArray());
 

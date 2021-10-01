@@ -423,9 +423,15 @@
         <div class="max-w-6xl mx-auto sm:px-6 lg:px-8">
             <div class="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow sm:rounded-lg">
                 <div class="grid grid-cols-1  ">
-                    <div class="p-6">
-                        <p>Welcome to the Faith Balance Profile quiz. Click <a href="{{ route('register') }}" class="text-gray-700 underline">here</a> to register, or the Register link in the top right corner, to take the quiz.
-                            Or, if you already registered, just <a href="{{ route('login') }}" class="text-gray-700 underline">login</a>.</p>
+                    <h2 class="px-6">Welcome To Your Faith Evaluation Toolkit</h2>
+                    <div class="px-6">
+                    <p>The personal Faith Evaluation Toolkit consists of two tools to help you get a personal prospective on your faith. These are the Faith Balance Profile quiz and the Faith Timeline, described in more detail below.
+                         Click <a href="{{ route('register') }}" class="text-gray-700 underline">here</a> to register, or the Register link in the top right corner, to take the quiz.
+                        Or, if you already registered, just <a href="{{ route('login') }}" class="text-gray-700 underline">login</a>.</p>
+                    </div>
+
+                    <h3 class="px-6">Faith Balance Profile Quiz</h3>
+                    <div class="px-6">
 
                         <p>This Faith Balance Profile is based on the book Sacred Pathways, written by Gary Thomas. We have modified some of the questions in the book to better fit our Christadelphian Community.
                             It is designed to give you an indication of your natural tendency between three elements of faith we talk about in FaithLaunch: the Head, Heart and Hands.</p>
@@ -435,6 +441,15 @@
 
                         <p>Hopefully your profile will also give you some insight into how others have different drivers of their faith than you.
                             This may help you develop a greater appreciation of and deeper relationship with your Faith Network.</p>
+                    </div>
+
+                    <h3 class="px-6">Faith Time Line</h3>
+                    <div class="px-6">
+
+                        <p>The Faith Time Line lets you record important events in your life and compare them to how you feel about the strength of your faith at the time of each of those events. It is designed to give you a
+                            summary picture of your life of faith, and to help demonstrate that we are all on a Faith journey, comprising various ups and downs. </p>
+
+
                     </div>
                 </div>
             </div>
