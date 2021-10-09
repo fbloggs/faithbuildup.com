@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Quiz;
 use App\Models\Quizdetail;
+use App\Models\Quizresponse;
 use App\Models\Timelineresponse;
 use App\Models\Timelineresponsedetail;
 use App\Models\User;
@@ -21,19 +22,27 @@ class TimelinesController extends Controller
     {
         $user = Auth::user();
 
-
         $v = new Viewdata();
+        // Condition quiz menu option for faith timeline too.
+        $v->quizdone = Quizresponse::quizExists($user->id);
+
 
         $v->userid  = $user->id;
-        $v->user = new \stdClass();
-        $v->user->family = $user->family;
-        $v->user->profession = $user->profession;
-        $v->user->hobbies = $user->hobbies;
-        $v->user->scripture = $user->scripture;
+      //  $v->user = new \stdClass();
+      //  $v->user->family = $user->family;
+      //  $v->user->profession = $user->profession;
+     //   $v->user->hobbies = $user->hobbies;
+     //   $v->user->scripture = $user->scripture;
 
         $v->faithevents = $this->getFaithevents();
 
         return Inertia::render('Timeline/Show',  $v->toArray());
+    }
+
+    public function showuser($user_id) {
+
+        $user = User::get($user_id)->first();
+
     }
 
     public function update(Request $request)
@@ -42,8 +51,6 @@ class TimelinesController extends Controller
 
         $responseKey = [
             'user_id'   => Auth::user()->id,
-
-
         ];
         $responseRow = [
 
@@ -54,21 +61,24 @@ class TimelinesController extends Controller
         $response = Timelineresponse::updateOrCreate($responseKey, $responseRow);
 
         /**
+         *  First, delete all existing responses so we start afresh (in case user decides to omit one)
          *  Write a response row for each question and answer.
          *  Child to Quizresponse table.
          */
+        $deletedRows = Timelineresponsedetail::where('timelineresponse_id', $response->id)->delete();
 
+         $index = 1;
         foreach ($answers as $answer) {
-
-
             $responseDetailKey = [
                 'timelineresponse_id' => $response->id,
-                'index' => $answer['index'] ,
+                'index' => $index,
 
             ];
 
-            // Only process rows with a valid, non-zero response:
-            if($answer['response'] || $answer['response'] > 0 ) {
+
+
+            // Only process rows with a non-null or undefined value for both response and faithstrength
+            if(($answer['response'] >= -100 && $answer['response'] <= 100) && ($answer['faithstrength'] >= -100 && $answer['faithstrength'] <= 100) ) {
                 $responseDetailRow = [
                     'description' => $answer['description'],
                     'response' => $answer['response'],
@@ -76,6 +86,7 @@ class TimelinesController extends Controller
                 ];
 
                 $responseDetail = Timelineresponsedetail::updateOrCreate($responseDetailKey, $responseDetailRow);
+                $index++;
             }
         }
 
@@ -93,12 +104,23 @@ class TimelinesController extends Controller
         return Redirect::route('timelines.results')->with('success', 'Congratulations. You Completed The Faith Timeline.');
     }
 
-    public function resultschart()
+    public function resultschart(Request $request, $anotherUser = null)
     {
         // Get the Quiz data and return to our Chart container page:
         $v = new Viewdata();
 
         $user = Auth::user();
+      
+
+        // If the user has a current_team_id of 1, it means they are an admin and can access other people's results.
+        if ($user->current_team_id == 1)
+        {
+
+            if ($anotherUser) {
+                $user = User::findorFail($anotherUser);
+            }
+        }
+
         $v->userid  = $user->id;
 
         $v->user = new \stdClass();
@@ -109,20 +131,8 @@ class TimelinesController extends Controller
         $v->user->scripture = $user->scripture;
 
 
-        // >>> Condition quiz menu option for faith timeline too. Should really be abstracted
-        // >>> into a service or something.
-        // >>> hard-code quiz for now. In future, may have more than 1.
-        $quizid = 1;
-
-       // $quizresponse  = Quizresponse::find(['quiz_id' => $quizid, 'user_id' => $user->id] ) ;
-       $quizresponse  = \DB::table('quizresponses')->where('quiz_id', $quizid)->where('user_id', $user->id)->exists();
-
-       if(!($quizresponse)) {
-           $v->quizdone = false;
-       }
-       else {
-           $v->quizdone = true;
-       }
+        // Condition quiz menu option for faith timeline too.
+        $v->quizdone = Quizresponse::quizExists($user->id);
 
         $timelineresponse = Timelineresponse::where('user_id', $user->id)->first();
 
@@ -165,9 +175,10 @@ class TimelinesController extends Controller
         $eventCount = count($faithevents);
         $faithevents  = $this->loadEvents($eventCount, $faithevents);
 
+
     }
 
-        return $faithevents;
+    return  $faithevents;
     }
 
     /**
@@ -181,13 +192,12 @@ class TimelinesController extends Controller
     private function loadEvents( $eventCount, $faithevents)
     {
 
-
-
         while ($eventCount < 20) {
-        $faithevents[$eventCount] =   array('index'=> $eventCount, 'description'=> 'Life Event '. $eventCount, 'response' => '0');
-        $eventCount++;
+            $eventCount++;
+            $faithevents[] =   array('index'=> $eventCount, 'description'=> 'Life Event '. $eventCount, 'response' => null, 'faithstrength' => null);
+
        }
 
-       return $faithevents; 
+       return   $faithevents;
     }
 }

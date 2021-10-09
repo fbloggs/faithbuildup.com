@@ -15,7 +15,7 @@
                 <h1 class="font-bold text-3xl text-blue-800 text-center uppercase">
                   My Faith - Life Line
                 </h1>
-
+                    <h2 class="font-bold text-2xl text-red-800 text-center uppercase">{{ user.name}}</h2>
                 <div class="col-span-11 mt-10">
                   <line-chart
                     :chartLifeEvents="chartLifeEvents"
@@ -33,35 +33,35 @@
                   <!-- Bottom grid with personal info and logo in it: -->
           <div class="grid grid-cols-3">
           <div class="col-span-2 pt-5">
-              <div class="grid grid-cols-2 bg-gray-300">
-              <div>
+              <div class="grid grid-cols-3 bg-gray-300">
+             <!-- <div class="pl-2 font-bold">
                   Name:
               </div>
-              <div>
+              <div class="col-span-2">
               {{ user.name}}
-              </div>
-                <div>
+              </div> -->
+                <div class="pl-2 font-bold">
                   Family:
               </div>
-              <div>
+              <div  class="col-span-2">
               {{ user.family}}
               </div>
-                 <div>
+                 <div class="pl-2 font-bold">
                   Profession:
               </div>
-              <div>
+              <div  class="col-span-2">
               {{ user.profession}}
               </div>
-                 <div>
+                 <div class="pl-2 font-bold">
                   Hobbies:
               </div>
-              <div>
+              <div  class="col-span-2">
               {{ user.hobbies}}
               </div>
-                <div>
+                <div class="pl-2 font-bold">
                   Fav. Scripture:
               </div>
-              <div>
+              <div  class="col-span-2">
               {{ user.scripture}}
               </div>
           </div>
@@ -159,7 +159,7 @@ export default {
                 labelOffset: 5,
               },
               gridLines: {
-                display: false,
+                display: true,
               },
 
               scaleLabel: {

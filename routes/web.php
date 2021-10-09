@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\QuizzesController;
 use App\Http\Controllers\TimelinesController;
-
+use App\Http\Controllers\UsersController;
 use App\Http\Controllers\DashboardController;
 
 /*
@@ -41,6 +41,10 @@ Route::get('/timeline/show', [TimelinesController::class, 'show'])
 ->name('timelines.show')
 ->middleware('auth:sanctum', 'verified');
 
+Route::get('/timeline/showuser/{ user }', [TimelinesController::class, 'showuser'])
+->name('timelines.showuser')
+->middleware('auth:sanctum', 'verified');
+
 Route::put('/timeline/update', [TimelinesController::class, 'update'])
 ->name('timelines.update')
 ->middleware('auth');
@@ -55,6 +59,13 @@ Route::get('/timeline/completed/', [TimelinesController::class, 'resultschart'])
  //   return Inertia\Inertia::render('Dashboard');
 //})->name('dashboard');
 
+// Users list so Admin can look at anyones info
+Route::get('/users', [UsersController::class, "index"])->name('users.index')->middleware('auth');
+Route::get('/users/showquiz/{userid}', [UsersController::class, "showquiz"])->name('user.showquiz')->middleware('auth');
+// Pie Chart results. Run results for pie chart.
+Route::get('/users/timeline/{userid}', [TimelinesController::class, 'resultschart'])
+->name('user.showtimeline')
+->middleware('auth');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard');

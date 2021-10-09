@@ -1,9 +1,11 @@
 <template>
   <app-layout :quizdone="false">
     <template #header>
+        <div>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         {{ quiz.quiz_name }}
       </h2>
+      </div>
     </template>
 
     <div class="py-12">
@@ -16,7 +18,7 @@
               and 0 is not true at all. Record your score in the box provided.</p>
               <p>
               Hint: try to avoid scoring a statement with a 5 – push yourself one side, higher or lower.
-               There are no right or wrong answers to these questions. 
+               There are no right or wrong answers to these questions.
             </p>
             <div
               v-if="pageError"
@@ -71,7 +73,7 @@ tbody tr:nth-child(odd) td {
   --tw-bg-opacity: 1;
   background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
 }
-</style> 
+</style>
 
 <script>
 import AppLayout from "@/Layouts/AppLayout";

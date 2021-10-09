@@ -24,7 +24,7 @@
                                 Faith Balance Quiz
                             </jet-nav-link>
 
-                            <jet-nav-link  v-if="quizdone" :href="route('quizzes.results', {id: 1})"   :active="route().current('quizzes.show')">
+                            <jet-nav-link  v-if="quizdone" :href="route('quizzes.results', {id: 1})"   :active="route().current('quizzes.results')">
                                 Faith Balance Results
                             </jet-nav-link>
                              <jet-nav-link    :href="route('timelines.show')"   :active="route().current('timeslines.show')">

@@ -1,9 +1,18 @@
 <template>
   <app-layout :quizdone="quizdone">
     <template #header>
-      <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-        {{ quiz.quiz_name }}
-      </h2>
+           <div class="flex justify-between">
+               <div>
+             <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ quiz.quiz_name }}
+            </h2>
+               </div>
+            <div class="  mr-2 pt-2 pb-6">
+                <inertia-link :href="route('quizzes.show', {id: 1})" class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150">
+                    Take the Quiz Again
+                    </inertia-link>
+            </div>
+          </div>
     </template>
 
     <div class="py-12">

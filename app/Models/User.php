@@ -10,6 +10,8 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Jetstream\HasTeams;
 use Laravel\Sanctum\HasApiTokens;
 
+use App\Models\Quizresponse;
+
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -57,4 +59,22 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+
+  
+    public function scopeOrderByEmail($query)
+    {
+        $query->orderBy('email');
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%'.$search.'%')
+                      ->orWhere('email', 'like', '%'.$search.'%');
+            });
+
+        });
+    }
 }
