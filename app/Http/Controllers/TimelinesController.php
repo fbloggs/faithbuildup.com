@@ -104,37 +104,45 @@ class TimelinesController extends Controller
         return Redirect::route('timelines.results')->with('success', 'Congratulations. You Completed The Faith Timeline.');
     }
 
-    public function resultschart(Request $request, $anotherUser = null)
-    {
-        // Get the Quiz data and return to our Chart container page:
-        $v = new Viewdata();
-
+    public function anotheruser(Request $request, $userid) {
+        // If the logged in user has a current_team_id of 1, it means they are an admin and can access other people's results.
         $user = Auth::user();
-      
-
-        // If the user has a current_team_id of 1, it means they are an admin and can access other people's results.
         if ($user->current_team_id == 1)
         {
-
-            if ($anotherUser) {
-                $user = User::findorFail($anotherUser);
-            }
+           $anotherUser = User::findorFail($userid);
+           return $this->drawChart($user, $anotherUser);
         }
+        else {
+            abort(403, 'Unauthorized action.');
+        }
+    }
 
+    public function resultschart(Request $request )
+    {
+        // Get the Quiz data and return to our Chart container page:
+        $user = Auth::user();
+        return $this->drawChart($user, $user);
+
+     }
+
+    private function drawChart($user, $anotherUser)
+    {
+        $v = new Viewdata();
+        $v->user = $user;
         $v->userid  = $user->id;
 
-        $v->user = new \stdClass();
-        $v->user->name = $user->name;
-        $v->user->family = $user->family;
-        $v->user->profession = $user->profession;
-        $v->user->hobbies = $user->hobbies;
-        $v->user->scripture = $user->scripture;
+        $v->anotherUser = new \stdClass();
+        $v->anotherUser->name = $anotherUser->name;
+        $v->anotherUser->family = $anotherUser->family;
+        $v->anotherUser->profession = $anotherUser->profession;
+        $v->anotherUser->hobbies = $anotherUser->hobbies;
+        $v->anotherUser->scripture = $anotherUser->scripture;
 
 
         // Condition quiz menu option for faith timeline too.
-        $v->quizdone = Quizresponse::quizExists($user->id);
+        $v->quizdone = Quizresponse::quizExists($user->id); // For current logged in user.
 
-        $timelineresponse = Timelineresponse::where('user_id', $user->id)->first();
+        $timelineresponse = Timelineresponse::where('user_id', $anotherUser->id)->first();
 
         // Get results:
         $timelinedetails = Timelineresponsedetail::where('timelineresponse_id', $timelineresponse->id)->get();
@@ -151,7 +159,6 @@ class TimelinesController extends Controller
         $v->chartLifeEvents = $chartLifeEvents;
         $v->chartFaithStrengths = $chartFaithStrengths;
         $v->chartLabels = $chartLabels;
-
 
         return Inertia::render('Timeline/Results',  $v->toArray());
 

@@ -21,10 +21,10 @@ export default {
         datasets: [
           {
             label: "Life Events (+/-)",
-            borderColor: "red",
+            borderColor: "#fa4bce",
             pointBackgroundColor: "white",
             borderWidth: 2,
-            pointBorderColor: "red",
+            pointBorderColor: "#fa4bce",
             borderDash: [10, 5],
             backgroundColor: "transparent",
             data: this.chartLifeEvents,
@@ -32,10 +32,10 @@ export default {
 
           {
             label: "Faith Strength",
-            borderColor: "#249EBF",
+            borderColor: "#1d60cc",
             pointBackgroundColor: "white",
-            borderWidth: 2,
-            pointBorderColor: "#249EBF",
+            borderWidth: 4,
+            pointBorderColor: "#1d60cc",
             backgroundColor: "transparent",
             data: this.chartFaithStrengths,
           },

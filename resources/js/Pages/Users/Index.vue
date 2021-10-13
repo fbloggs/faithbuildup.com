@@ -44,12 +44,12 @@
                 </inertia-link>
               </td>
               <td class="border-t c">
-                  <inertia-link v-if="user.quizDone" class="btn-primary transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-indigo-500 hover:bg-indigo-900 text-white font-normal py-2 px-4 mr-1 rounded inline-flex" :href="route('user.showquiz', user.id)">
+                  <inertia-link v-if="user.quizDone" class="btn-primary transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-indigo-500 hover:bg-indigo-900 text-white font-normal py-2 px-4 mr-1 rounded inline-flex" :href="route('quizzes.anotheruser', { 'quizid' : 1, 'userid' : user.id})">
                       <icon name="eye" class="w-4 h-4 mr-2"></icon>
                       <span>Show Quiz</span>
                       </inertia-link>
 
-                            <inertia-link v-if="user.timeLineDone" class="btn-primary transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-indigo-500 hover:bg-indigo-900 text-white font-normal py-2 px-4 mr-1 rounded inline-flex" :href="route('user.showtimeline', user.id)">
+                            <inertia-link v-if="user.timeLineDone" class="btn-primary transition duration-300 ease-in-out focus:outline-none focus:shadow-outline bg-indigo-500 hover:bg-indigo-900 text-white font-normal py-2 px-4 mr-1 rounded inline-flex" :href="route('timelines.anotheruser', user.id)">
                       <icon name="eye" class="w-4 h-4 mr-2"></icon>
                       <span>Show Timeline</span>
                       </inertia-link>

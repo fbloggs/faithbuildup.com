@@ -27,8 +27,12 @@
                             <jet-nav-link  v-if="quizdone" :href="route('quizzes.results', {id: 1})"   :active="route().current('quizzes.results')">
                                 Faith Balance Results
                             </jet-nav-link>
-                             <jet-nav-link    :href="route('timelines.show')"   :active="route().current('timeslines.show')">
+                             <jet-nav-link    :href="route('timelines.show')"   :active="route().current('timelines.show')">
                                 Faith Time Line
+                            </jet-nav-link>
+
+                              <jet-nav-link  v-if="$page.user.current_team_id == 1"  :href="route('users.index')"   :active="route().current('users.index')">
+                                Users
                             </jet-nav-link>
 
                         </div>

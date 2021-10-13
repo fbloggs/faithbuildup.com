@@ -1,5 +1,5 @@
 <template>
-  <app-layout :quizdone="quizdone">
+  <app-layout :quizdone="quizdone" :sameuser="sameuser">
     <template #header>
       <h2 class="font-semibold text-xl text-gray-800 leading-tight">
         Faith Timeline Analysis
@@ -15,7 +15,7 @@
                 <h1 class="font-bold text-3xl text-blue-800 text-center uppercase">
                   My Faith - Life Line
                 </h1>
-                    <h2 class="font-bold text-2xl text-red-800 text-center uppercase">{{ user.name}}</h2>
+                    <h2 class="font-bold text-2xl text-red-800 text-center uppercase">{{ anotherUser.name}}</h2>
                 <div class="col-span-11 mt-10">
                   <line-chart
                     :chartLifeEvents="chartLifeEvents"
@@ -44,25 +44,25 @@
                   Family:
               </div>
               <div  class="col-span-2">
-              {{ user.family}}
+              {{ anotherUser.family}}
               </div>
                  <div class="pl-2 font-bold">
                   Profession:
               </div>
               <div  class="col-span-2">
-              {{ user.profession}}
+              {{ anotherUser.profession}}
               </div>
                  <div class="pl-2 font-bold">
                   Hobbies:
               </div>
               <div  class="col-span-2">
-              {{ user.hobbies}}
+              {{ anotherUser.hobbies}}
               </div>
                 <div class="pl-2 font-bold">
                   Fav. Scripture:
               </div>
               <div  class="col-span-2">
-              {{ user.scripture}}
+              {{ anotherUser.scripture}}
               </div>
           </div>
           </div>
@@ -100,6 +100,7 @@ export default {
   props: {
     userid: Number,
     user: Object,
+    anotherUser: Object,
 
     chartLifeEvents: {
       type: Array,
@@ -188,5 +189,11 @@ export default {
       },
     };
   },
+
+  computed: {
+      sameuser : function () {
+      return (this.user.id == this.anotherUser.id) ? true : false;
+  }
+  }
 };
 </script>

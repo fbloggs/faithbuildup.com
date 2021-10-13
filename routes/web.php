@@ -35,15 +35,17 @@ Route::get('/quiz/completed/{quizid}', [QuizzesController::class, 'resultspie'])
 ->name('quizzes.results')
 ->middleware('auth');
 
+Route::get('/quiz/anotheruser/{quizid}/{userid}', [QuizzesController::class, 'anotheruserpie'])
+->name('quizzes.anotheruser')
+->middleware('auth');
+
 
 // Faith Timeline Routes (Started 20210903)
 Route::get('/timeline/show', [TimelinesController::class, 'show'])
 ->name('timelines.show')
 ->middleware('auth:sanctum', 'verified');
 
-Route::get('/timeline/showuser/{ user }', [TimelinesController::class, 'showuser'])
-->name('timelines.showuser')
-->middleware('auth:sanctum', 'verified');
+
 
 Route::put('/timeline/update', [TimelinesController::class, 'update'])
 ->name('timelines.update')
@@ -53,6 +55,10 @@ Route::put('/timeline/update', [TimelinesController::class, 'update'])
 Route::get('/timeline/completed/', [TimelinesController::class, 'resultschart'])
 ->name('timelines.results')
 ->middleware('auth');
+
+Route::get('/timeline/anotheruser/{userid}', [TimelinesController::class, 'anotheruser'])
+->name('timelines.anotheruser')
+->middleware('auth:sanctum', 'verified');
 
 // Use a real controller for dashboard so we can condition display of links based on server values.
 //Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
