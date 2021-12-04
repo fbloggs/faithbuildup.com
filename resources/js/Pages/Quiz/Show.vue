@@ -13,19 +13,21 @@
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg">
           <div class="p-4">
             <h3 class="font-bold">Instructions</h3>
-            <p>
+            <!-- <p>
               Score these statements on a scale of 0 to 10, where 10 is very true
               and 0 is not true at all. Record your score in the box provided.</p>
               <p>
               Hint: try to avoid scoring a statement with a 5 – push yourself one side, higher or lower.
                There are no right or wrong answers to these questions.
-            </p>
+            </p> -->
+            <p>Score these statements on a scale of 1 to 5, where 5 is very true and 1 is not true at all. Record your score in the box provided.</p>
+            <p>try to avoid scoring a statement with a 3 – push yourself to either a 4 or a 2 instead.</p>
             <div
               v-if="pageError"
               class="bg-red-300 text-red-700 border-2 border-red-700 rounded p-2 m-2"
             >
               One or more of your answers have incorrect answers. Please correct
-              them. (You must choose a value from 0 to 10)
+              them. (You must choose a value from 1 to 5)
             </div>
           </div>
           <form @submit.prevent="submit">
@@ -55,7 +57,7 @@
               class="bg-red-300 text-red-700 border-2 border-red-700 rounded p-2 m-2"
             >
               One or more of your answers is incorrect or missing. Please
-              correct them. (You must type in a value from 0 to 10 - blanks are not allowed)
+              correct them. (You must type in a value from 1 to 5 - blanks are not allowed)
             </div>
             <div class="flex justify-end mr-2 pt-2 pb-6">
               <jet-button> Save Your Answers </jet-button>
@@ -144,6 +146,7 @@ export default {
       }
     },
 
+    // DJK 20211202 - changed scale from 0 - 10 to 1 - 5 as per Paul's request.
     checkForm(questions) {
       this.pageError = false;
 
@@ -151,7 +154,8 @@ export default {
 
       for (var i = 0; i < arrayLength; i++) {
         let item = questions[i];
-        if (!item.answer || item.answer < 0 || item.answer > 10) {
+     //   if (!item.answer || item.answer < 0 || item.answer > 10) {
+          if (!item.answer || item.answer < 1 || item.answer > 5) {
           this.pageError = true;
         }
       }
@@ -164,6 +168,7 @@ export default {
      *  Loop through all answers. For purposes of real-time validation,
      *  ignore the null or empty values - just do them when we submit the page.
      *  Everything else- test for a value from 1 to 5.
+     *
      */
     checkForPageError() {
       this.pageError = false;
@@ -172,7 +177,8 @@ export default {
       for (var i = 0; i < arrayLength; i++) {
         let item = this.questions[i];
         if (item.answer != null && item.answer.length > 0) {
-          if (item.answer < 0 || item.answer > 10) {
+         // if (item.answer < 0 || item.answer > 10) {
+          if (item.answer < 1 || item.answer > 5) {
             this.pageError = true;
           }
         }

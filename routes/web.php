@@ -21,7 +21,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::get('/quiz/{quizid}/show', [QuizzesController::class, 'show'])
 ->name('quizzes.show')
 ->middleware('auth:sanctum', 'verified');
@@ -39,13 +38,10 @@ Route::get('/quiz/anotheruser/{quizid}/{userid}', [QuizzesController::class, 'an
 ->name('quizzes.anotheruser')
 ->middleware('auth');
 
-
 // Faith Timeline Routes (Started 20210903)
 Route::get('/timeline/show', [TimelinesController::class, 'show'])
 ->name('timelines.show')
 ->middleware('auth:sanctum', 'verified');
-
-
 
 Route::put('/timeline/update', [TimelinesController::class, 'update'])
 ->name('timelines.update')
