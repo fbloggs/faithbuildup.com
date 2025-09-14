@@ -31,6 +31,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'family',
+        'profession',
+        'hobbies',
+        'scripture'
     ];
 
     /**
@@ -65,5 +69,21 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function scopeOrderByEmail($query)
+    {
+        $query->orderBy('email');
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? null, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('name', 'like', '%'.$search.'%')
+                      ->orWhere('email', 'like', '%'.$search.'%');
+            });
+
+        });
     }
 }
