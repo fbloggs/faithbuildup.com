@@ -425,7 +425,7 @@
                 <div class="grid grid-cols-1  ">
                     <h2 class="px-6">Welcome To Your Faith Evaluation Toolkit</h2>
                     <div class="px-6">
-                    <p>The personal Faith Evaluation Toolkit consists of two tools to help you get a personal prospective on your faith. These are the Faith Balance Profile quiz and the Faith Timeline, described in more detail below.
+                    <p>The personal Faith Evaluation Toolkit consists of two tools to help you get a personal perspective on your faith. These are the Faith Balance Profile quiz and the Faith Timeline, described in more detail below.
                          Click <a href="{{ route('register') }}" class="text-gray-700 underline">here</a> to register, or the Register link in the top right corner, to take the quiz.
                         Or, if you already registered, just <a href="{{ route('login') }}" class="text-gray-700 underline">login</a>.</p>
                     </div>
