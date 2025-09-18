@@ -20,25 +20,16 @@ class TimelinesController extends Controller
 {
     public function show(Request $request)
     {
-        $user = Auth::user();
+       $user = Auth::user();
 
-        $v = new Viewdata();
-        // Condition quiz menu option for faith timeline too.
-        $v->quizdone = Quizresponse::quizExists($user->id);
-
-        $v->user = $user;
-        $v->userid = $user->id;
-        //  $v->user = new \stdClass();
-        //  $v->user->family = $user->family;
-        //  $v->user->profession = $user->profession;
-        //   $v->user->hobbies = $user->hobbies;
-        //   $v->user->scripture = $user->scripture;
-
-        $v->faithevents = $this->getFaithevents();
-        $v->answes = $this->getAnswers();   // Get answers for the current user, if any.
-
-        return Inertia::render('Timeline/Show', $v->toArray());
-    }
+    return Inertia::render('Timeline/Show', [
+        'user' => $user,
+        'userid' => $user->id,
+        'quizdone' => Quizresponse::quizExists($user->id),
+        'faithevents' => $this->getFaithevents(),
+        'answers' => $this->getAnswers(),
+    ]);
+}
 
     public function showuser($user_id)
     {
@@ -127,47 +118,40 @@ class TimelinesController extends Controller
     }
 
     private function drawChart($user, $anotherUser)
-    {
-        $v = new Viewdata();
-        $v->user = $user;
-        $v->userid = $user->id;
-
-        $v->anotherUser = new \stdClass();
-        $v->anotherUser->name = $anotherUser->name;
-        $v->anotherUser->family = $anotherUser->family;
-        $v->anotherUser->profession = $anotherUser->profession;
-        $v->anotherUser->hobbies = $anotherUser->hobbies;
-        $v->anotherUser->scripture = $anotherUser->scripture;
-
-
-        // Condition quiz menu option for faith timeline too.
-        $v->quizdone = Quizresponse::quizExists($user->id); // For current logged in user.
-
+    {// Get timeline data
         $timelineresponse = Timelineresponse::where('user_id', $anotherUser->id)->first();
-
-        // Get results:
         $timelinedetails = Timelineresponsedetail::where('timelineresponse_id', $timelineresponse->id)->get();
 
-        $chartLifeEvents = array();
-        $chartFaithStrengths = array();
-        $chartLabels = array();
+        // Build chart data
+        $chartLifeEvents = [];
+        $chartFaithStrengths = [];
+        $chartLabels = [];
         foreach ($timelinedetails as $timelinedetail) {
             $chartLifeEvents[] = $timelinedetail->response;
             $chartFaithStrengths[] = $timelinedetail->faithstrength;
             $chartLabels[] = $timelinedetail->description;
         }
 
-        $v->chartLifeEvents = $chartLifeEvents;
-        $v->chartFaithStrengths = $chartFaithStrengths;
-        $v->chartLabels = $chartLabels;
-
-        return Inertia::render('Timeline/Results', $v->toArray());
-
+        return Inertia::render('Timeline/Results', [
+            'user' => $user,
+            'userid' => $user->id,
+            'anotherUser' => [
+                'name' => $anotherUser->name,
+                'family' => $anotherUser->family,
+                'profession' => $anotherUser->profession,
+                'hobbies' => $anotherUser->hobbies,
+                'scripture' => $anotherUser->scripture,
+            ],
+            'quizdone' => Quizresponse::quizExists($user->id), // For current logged in user
+            'chartLifeEvents' => $chartLifeEvents,
+            'chartFaithStrengths' => $chartFaithStrengths,
+            'chartLabels' => $chartLabels,
+        ]);
     }
 
     private function getFaithevents()
     {
-       
+
         $faithevents = array();
         $user = Auth::user();
         // Check if we already have existing data for this user. If so, reuse.
@@ -175,13 +159,13 @@ class TimelinesController extends Controller
 
         if (!$timelineresponse) {
 
-           
+
             $faithevents = $this->loadEvents(0, $faithevents);
 
         } else {
 
             $faithevents = Timelineresponsedetail::where('timelineresponse_id', $timelineresponse->id)->get()->toArray();
-            
+
             $faithevents = $this->loadEvents(count($faithevents), $faithevents);
 
 
@@ -202,7 +186,7 @@ class TimelinesController extends Controller
             $answers = Timelineresponsedetail::where('timelineresponse_id', $timelineresponse->id)->get()->toArray();
             return $answers;
         }
-    }           
+    }
 
     /**
      * Add any blank missing events to array, based on current array size.
