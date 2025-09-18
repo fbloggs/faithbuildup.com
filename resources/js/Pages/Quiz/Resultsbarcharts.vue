@@ -140,12 +140,7 @@ const subcatchartdata = computed(() => {
             <h3 class="font-bold">Results</h3>
 
             <p>
-              The numerical scores in your results have no significance by
-              themselves, except to show the relative balance between the three
-              elements of faith. Hopefully the results of this quiz will give
-              you some insight into your natural thinking process and you assist
-              you to develop a personal action plan to get these elements in
-              more of a balance, if you desire.
+             The numerical scores in your results are meaningful only in relation to each other—they reveal the relative balance between the three elements of faith rather than providing absolute measurements. These results should offer insight into your natural thinking patterns and help you develop a personalized action plan to achieve greater balance among these elements, should you choose to pursue that goal.
             </p>
           </div>
           <div class="grid grid-cols-3 gap-4">
